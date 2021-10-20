@@ -1,0 +1,49 @@
+# You need to specify path to your dataset
+dataset:
+  dataset_folder: data/dataset_0923_2_robndbox # in which the generated .h5 file would be put
+  img_folder: ../drug_det_data_gen/data/dataset_0923_2/yolo/ro_images # where are the image files
+  label_folder: ../drug_det_data_gen/data/dataset_0923_2/yolo/ro_labels # where are the label files
+  # id: class id in YOLO label(.txt); name: label name in annotated images.
+  yolo_label_id2name: ../drug_det_data_gen/data/dataset_0923_2/yolo/yolo_label_id2name.json   
+is_ro: true # if True, it is config for rotated YOLO.
+n_degree: 180 # granularity of rotated angle
+log_path:
+  pp: pp/log # paddle paddle
+  pt: pt/log/robndbox # pytorch
+  tf: tf/log # tensorflow
+seed: 0
+split_prop: 0.9 # split id list into training list and val list.
+shape: !!python/tuple
+  - 640
+  - 640
+aug_cfg: configs/pipeline/aug_cfg.yml
+# You need to specify path to your saved params
+pre_trained: pt/log/robndbox/degree_90/last.pt
+train:
+  train_all: true # the whole dataset for training
+  batch_size: 1
+  epochs: 500 # epochs in all
+  aug_epochs: 100 # how many epochs are we gonna run this time
+  warmup_epochs: 20 # we don't record log before this point
+  patience: 100 # patience to no change of loss value
+  amp: true # auto mixed precision
+  reset_lr: false # if True, set learning rate as initiated, otherwise load the saved.
+val:
+  batch_size: 1
+metric_step: 10 # step for evaluation
+model_cfg:
+  pt: configs/model_pt/yolov5s_ro.yml
+nms:
+  conf_threshold: 0.45 # threshold to filter out low trusted boxes
+  iou_threshold: 0.25 # for torchvision.ops.batched_nms, discards all overlapping boxes with IoU > iou_threshold.
+  hw_threshold: 0.01 # threshold of width and height, less than which do we ignore the box.
+  patience: 10 # waiting time before break.
+  max_nms: 1000 # maximum number of boxes into torchvision.ops.batched_nms()
+  max_det: 300 # maximum number of kept boxes.
+  batched_nms: false # if true, use batched_nms, otherwise nms.
+  mask_h: 640 # height of mask matrix
+  mask_w: 640 # width of mask matrix
+  extra_filter_record: configs/nms/extra_filter.json # specific size of certain objects
+  extra_threshold: 0.80 # conf threshold less than which we will measure the size
+
+

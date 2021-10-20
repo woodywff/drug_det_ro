@@ -1,0 +1,25 @@
+Crop:
+  crop_h_min_p: 0.75
+  crop_w_min_p: 0.75
+Flip:
+  t_lr: 0.5
+  t_ud: 0.5
+HsvAug:
+  hgain: 0.5
+  sgain: 0.5
+  vgain: 0.5
+Mosaic:
+  ratio: 0.1
+Mov:
+  upper_bound: 0.25
+Shrink:
+  lower_bound: 0.75
+aug_list:
+- Mosaic
+- - Mov
+  - Crop
+  - Shrink
+  - PadRotate
+- HsvAug
+- Flip
+threshold: 0.04

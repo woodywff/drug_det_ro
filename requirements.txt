@@ -1,0 +1,11 @@
+matplotlib==3.2.2
+Flask_Cors==3.0.10
+torch==1.9.1+cu111
+torchvision==0.10.1+cu111
+tqdm==4.61.1
+numpy==1.17.4
+Flask==1.1.2
+h5py==2.10.0
+opencv_python==4.5.2.54
+Pillow==8.4.0
+PyYAML==6.0
